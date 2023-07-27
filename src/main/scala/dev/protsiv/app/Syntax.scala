@@ -3,8 +3,7 @@ package dev.protsiv.app
 import cats.data.{EitherT, ReaderT}
 import cats.effect.IO
 import cats.implicits.toBifunctorOps
-import dev.protsiv.app.Configuration.Configuration.{AppOp, Error, ErrorOr}
-import dev.protsiv.app.Configuration.Environment
+import dev.protsiv.app.Configuration.{AppOp, Environment, Error, ErrorOr}
 
 object Syntax {
   implicit class IOOps[A](fa: IO[A]) {
@@ -14,6 +13,12 @@ object Syntax {
         fa.attempt.map(_.leftMap(_.getMessage))
       val errorOr: ErrorOr[A] = EitherT(attemptIO)
       ReaderT.liftF(errorOr)
+    }
+  }
+
+  implicit class EitherOps[A](fa: Either[Error,A]) {
+    def toAppOp: AppOp[A] = {
+      ReaderT.liftF(EitherT(IO.pure(fa)))
     }
   }
 

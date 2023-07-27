@@ -1,7 +1,7 @@
 package dev.protsiv.app
 
 import cats.implicits.toShow
-import dev.protsiv.app.Configuration.Configuration.{AppOp, readEnv}
+import dev.protsiv.app.Configuration.{AppOp, readEnv}
 import dev.protsiv.app.Syntax.IOOps
 
 object App {

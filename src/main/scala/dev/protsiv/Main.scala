@@ -2,7 +2,7 @@ package dev.protsiv
 
 import cats.effect.{ExitCode, IO, IOApp}
 import dev.protsiv.app.App
-import dev.protsiv.app.Configuration.Configuration.liveEnv
+import dev.protsiv.app.Configuration.liveEnv
 import dev.protsiv.service.{Console, LiveClient, LiveConsole}
 import dev.protsiv.app.Configuration.path
 
