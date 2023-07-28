@@ -26,4 +26,4 @@ libraryDependencies ++= Seq(
 "org.typelevel" %% "cats-effect-testing-scalatest" % "1.5.0" % Test
 )
 
-
+Test / parallelExecution := false
