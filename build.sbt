@@ -22,7 +22,6 @@ libraryDependencies ++= Seq(
   "io.spray" %% "spray-json" % sprayJsonVersion,
   // test dependencies
   "org.scalatest" %% "scalatest" % scalatestVersion % Test,
-  "org.typelevel" %% "munit-cats-effect-3" % munitTestVersion % Test,
 "org.typelevel" %% "cats-effect-testing-scalatest" % "1.5.0" % Test
 )
 
