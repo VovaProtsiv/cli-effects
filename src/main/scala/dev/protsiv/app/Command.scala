@@ -1,11 +1,41 @@
 package dev.protsiv.app
 
+import cats.Show
 import cats.effect.IO
+import dev.protsiv.app.Configuration.{AppOp, SuccessMsg, path, readEnv}
+import dev.protsiv.app.Syntax.{EitherOps, IOOps}
+import dev.protsiv.serializer.IpSerializer
 
 trait Command {
   val name: String
 
-  def execute(): IO[String]
+  def execute(): AppOp[SuccessMsg]
 
   def isExit: Boolean = false
+}
+
+object Command {
+  implicit val showCommand: Show[Command] = Show.show(_.name)
+}
+
+object ExitCommand extends Command {
+  override val name: String = "Exit app"
+
+  override def isExit: Boolean = true
+
+  override def execute(): AppOp[SuccessMsg] = IO.pure("Finished.").toAppOp
+}
+
+object GetIp extends Command {
+
+  override val name: SuccessMsg = "Get IP"
+
+  override def execute(): AppOp[SuccessMsg] = {
+    for {
+      env <- readEnv
+      _ <- env.console.printLine(s"Connecting to $path").toAppOp
+      json <- env.client.call(path).toAppOp
+      address <- IpSerializer.toIp(json).toAppOp
+    } yield s"Your IP: ${address.ip}"
+  }
 }
